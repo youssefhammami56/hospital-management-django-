@@ -1,0 +1,226 @@
+{% include 'adminnavbar.html' %}
+
+
+    <head><script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      />
+      
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+      />
+      
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script></head>
+      
+       
+<style>
+   
+    .container{
+        height: 90vh;
+        padding: 25px 30px;
+        background-color: #fff;
+        border-radius: 5px;
+
+        box-shadow: 15px 15px 15px 15px  rgba(0,0,0,0.50);
+        margin: 50px auto;
+    }
+    .container .title{
+        font-size: 25px;
+        font-weight: 500;
+    }
+    .container form{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 10px 0 12px 0;
+    }
+    form .form-group{
+        margin-bottom: 15px;
+        width: calc(100% / 2 - 20px);
+    }
+    form span{
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    form select{
+        display: block;
+        font-weight: 500;
+        margin-bottom: 5px;
+        width: 100%;
+        height: 40px;
+    }
+
+    .form-group input{
+        height: 40px;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        font-size: 15px;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+    }
+    #txt{
+        height: 40px;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        font-size: 15px;
+        border-bottom-width: 2px;
+        transition: all 0.3s ease;
+
+    }
+    #s,#txt,
+    .form-group input:focus,
+    .form-group input{
+        border-color: steelblue;
+    }
+    form .button{
+        height: 40px;
+        width: 100%;
+        margin: 50px 170px;
+        position: relative;
+        bottom: 100px;
+    }
+    #test{
+        height: 20px;
+        
+        margin: 5px 50px;
+        position: relative;
+        top: 29px;
+        
+        right: 250px;
+    }
+    
+    form .button input{
+        width: 100%;
+        height: 100%;
+        outline: none;
+        cursor: pointer;
+        top:1050px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 500;
+        border: none;
+        border-radius: 5px;
+        background-color: steelblue;
+    }
+    input[type="submit"]:hover {
+        background-color: steelblue;
+      }
+    
+    </style>  
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+  />
+ 
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+  />
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        
+       
+            
+    <!DOCTYPE html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Responsive Registration Form | Rz Education</title>
+    </head>
+    <body>
+        {% if error %}
+        <div class="alert alert-danger">{{error}}</div>
+        {% else %}
+        <div class="container">
+            <div class="title">Patient File </div>
+            <form method="post" action="modif/{{f.id}}">
+                {% csrf_token %}
+               
+                <div class="form-group">
+                    <span>Patient</span>
+                    <input type="text" name="patient" value={{p.name}} readonly>
+                </div>
+                <div class="form-group">
+                    <span>Id Card</span>
+                    <input type="text" name="cin" value={{p.cin}} readonly>
+                </div>
+                <div class="form-group">
+                    <span>Email</span>
+                    <input type="email"  name="email" value={{p.email}} readonly>
+                </div>
+                <div class="form-group">
+                    <span>Phone Number</span>
+                    <input type="number"  name="phone" value={{p.phone}} readonly>
+                </div>
+                <div class="form-group">
+                    <span>visit Date </span>
+                    <input type="text" id="email" name="date" value= "{{f.date | date:"Y-m-j"}}" required>
+                </div>
+                <div class="form-group">
+                    <span>heur</span>
+                    <input type="text" id="time" name="time" value="{{f.time | date:"H:i:s"}}">
+                </div>
+                <div class="form-group">
+                    <span>Doctor</span>
+                    <input type="text"  name="doctor" value={{f.doctor}} readonly>
+                    
+                
+           
+        </div>
+               
+                <div class="form-group">
+                    <span>description of the condition</span>
+                    {% comment %} <input type="text" id="trait" name="desc" value="{{f.description}}"> {% endcomment %}
+                    <textarea id="txt" name="desc" rows="4" cols="50" >{{f.description}}</textarea>
+                </div> 
+                <div class="form-group">
+                    <span>Cure</span>
+                    <input type="text" id="trait" name="trait" value="{{f.traitement}}">
+                </div>
+                <div class="form-group">
+                    <spam>hospitalization</spam>
+                    <input type="number" id="nbrhosp" name="nbrhosp" value={{f.nbrhos}} >
+                </div>
+                
+                {% comment %} //je veux affichier le radio n1 checked if f.test == "true" {% endcomment %}
+                {% if f.test  %}
+
+                <div class="form-group">
+                    <spam id="b">need Test ?</spam>
+                    <input type="radio" id="test" name="test" value="oui" required checked>oui
+                    <input type="radio" id="test" name="test" value="False" required>non
+                </div>
+                {% else %}
+                <div class="form-group">
+                    <spam id="b">besoin  test ?</spam>
+                    <input type="radio" id="test" name="test" value="True" required >oui
+                    <input type="radio" id="test" name="test" value="False" required checked>non
+                </div>
+                {% endif %}
+                
+                <div class="button">
+                    <input type="submit" value=" valider">
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </body>
+   
+    </script>
+        
+    </html>
+    

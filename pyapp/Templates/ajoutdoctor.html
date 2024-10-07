@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'adminnavbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <style>
+        .container-custom {
+            max-width: 700px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 50px auto;
+        }
+        .title-custom {
+            font-size: 30px;
+            font-weight: 700;
+            color: #5bc0de;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .title-custom img {
+            margin-left: 15px;
+        }
+        .form-group-custom {
+            margin-bottom: 20px;
+        }
+        .form-group-custom span {
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+            color: #5bc0de;
+        }
+        .form-group-custom input,
+        .form-group-custom select {
+            height: 45px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding-left: 15px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group-custom input:focus,
+        .form-group-custom select:focus {
+            border-color: #5bc0de;
+            box-shadow: 0 0 0 0.2rem rgba(91, 192, 222, 0.25);
+        }
+        .btn-custom {
+            background-color: #5bc0de;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #31a2c2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container container-custom">
+        <div class="title title-custom">
+            Add a Doctor
+            <img src="https://img.icons8.com/color/48/null/doctor-male-skin-type-1.png" alt="Doctor Icon"/>
+        </div>
+        <form method="post" action="adddoctoraction" id="myForm" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <div class="form-group form-group-custom">
+                <span>Doctor Name:</span>
+                <input type="text" id="name" name="name" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Email:</span>
+                <input type="email" id="email" name="email" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Phone Number:</span>
+                <input type="text" id="phone" name="phone" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>ID Card:</span>
+                <input type="text" id="cin" name="cin" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Speciality:</span>
+                <input type="text" id="spec" name="spec" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Service:</span>
+                <select name="s" id="s" class="form-control">
+                    {% for service in dep %}
+                    <option value="{{ service.id }}">{{ service.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Address:</span>
+                <input type="text" id="address" name="address" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Password:</span>
+                <input type="password" id="password" name="password" class="form-control">
+            </div>
+            <div class="form-group form-group-custom">
+                <span>Confirm Password:</span>
+                <input type="password" id="password2" name="password2" class="form-control">
+            </div>
+            <input type="hidden" name="statut" value="disponible">
+            <div class="text-center">
+                <input type="submit" value="Add" class="btn btn-custom">
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="sweetalert2.min.js"></script>
+
+    <script>
+        function validateForm() {
+            var name = document.forms["myForm"]["name"].value;
+            var email = document.forms["myForm"]["email"].value;
+            var telephone = document.forms["myForm"]["phone"].value;
+            var cin = document.forms["myForm"]["cin"].value;
+            var spec = document.forms["myForm"]["spec"].value;
+            var address = document.forms["myForm"]["address"].value;
+            var password = document.forms["myForm"]["password"].value;
+            var password2 = document.forms["myForm"]["password2"].value;
+
+            if (name == "" || email == "" || telephone == "" || cin == "" || spec == "" || address == "" || password == "" || password2 == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please complete all fields.',
+                });
+                return false;
+            }
+
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Invalid email.',
+                });
+                return false;
+            }
+
+            var cinPattern = /^\d{8}$/;
+            if (!cinPattern.test(cin)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Invalid ID Card.',
+                });
+                return false;
+            }
+
+            var phonePattern = /^\d{8}$/;
+            if (!phonePattern.test(telephone)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Invalid phone number, it must be 8 digits.',
+                });
+                return false;
+            }
+
+            if (password != password2) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Passwords do not match.',
+                });
+                return false;
+            }
+        }
+
+        {% for msg in messages %}
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{{ msg }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        {% endfor %}
+    </script>
+</body>
+</html>

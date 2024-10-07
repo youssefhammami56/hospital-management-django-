@@ -1,0 +1,243 @@
+{% comment %} {% if request.user.is_authenticated %}
+{% include 'adminnavbar.html' %}
+{% endif %}
+<style>
+  /* Container for the patient file */
+  .patient-file {
+      border: 1px solid gray; /* adds a border */
+      position: relative; /* positions the element relative to its parent */
+      top: 50px; /* moves the element down by 50 pixels */
+      padding: 10px; /* adds padding */
+      margin: 0 auto; /* centers the element horizontally */
+      width: 40%; /* sets the width to 40% */
+      box-shadow: 10px 10px 10px 10px rgba(0,0,0,0.75); /* adds a shadow */
+      background-color: #E4F5D4; /* sets the background color */
+    }
+    /* Container for patient information */
+    .patient-info {
+      margin-bottom: 20px; /* adds a margin at the bottom */
+    }
+    /* Container for medical information */
+    .medical-info {
+      margin-bottom: 20px; /* adds a margin at the bottom */
+    }
+    /* Aligns headings */
+    h1, h3 {
+      text-align: center; /* centers the headings */
+    }
+    /* Parent container */
+    .parent {
+      display: flex; /* displays the child elements as a flexible box */
+      align-items: center; /* centers the child elements vertically */
+      justify-content: center; /* centers the child elements horizontally */
+      height: 100vh; /* sets the height to 100% of the viewport height */
+    }
+    /* Modify button */
+    .modify-button {
+      background-color: #4CAF50; /* Green */
+      border: none; /* removes the border */
+      color: white; /* sets the text color to white */
+      padding: 15px 32px; /* adds padding */
+      text-align: center; /* centers the text */
+      text-decoration: none; /* removes the text decoration */
+      display: inline-block; /* displays the button as an inline-level block */
+      font-size: 16px; /* sets the font size */
+      margin-top: 10px; /* adds a margin at the top */
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+
+
+
+
+
+<div class="patient-file">
+    <h1>fiche patient</h1>
+    <div class="patient-info">
+      <h3>Information Personal</h3>
+      <p>Ptient: {{p.name}}</p>
+      <p>adresse: {{p.address}}</p>
+      <p>Telephone: {{p.phone}}</p>
+      <p>Cin: {{p.cin}}</p>
+    </div>
+    
+    
+    <div class="patient-info">
+    <h3>Visite Information</h3>
+    <p>Date de consultation: {{rdvv.date}}</p>
+    
+    <p>Heure: {{rdvv.time}}</p>
+    </div>
+    
+    
+    <div class="medical-info">
+      <h3> Information Medical</h3>
+    
+      <p>Description de l'état: {{f.description}}</p>
+      traitement: {{f.traitement}}
+      
+    </div>
+    {% if request.user.is_authenticated %}
+    {% if request.user.is_superuser %}
+    <button onclick="exportToPDF()" >Export as PDF</button>
+    {% else %}
+    <a href="/modiffiche/{{f.id}}"><button class="btn btn-primary">modifier</button></a>
+    {% endif %}
+    {% endif %}
+  </div>
+    
+    
+
+
+ {% endcomment %}
+ {% include 'adminnavbar.html' %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<style>
+  /* Container for the patient file */
+  .patient-file {
+    border: 1px solid gray; /* adds a border */
+    position: relative; /* positions the element relative to its parent */
+    top: 50px; /* moves the element down by 50 pixels */
+    padding: 10px; /* adds padding */
+    margin: 0 auto; /* centers the element horizontally */
+    width: 40%; /* sets the width to 40% */
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.75); /* adds a shadow */
+    background-color: #e4f5d4; /* sets the background color */
+    background-image: url(https://mydryeyedisease.com/wp-content/uploads/2021/10/fiche-specialiste.gif);
+    background-size: 320px;
+    background-repeat: no-repeat;
+    background-position: right;
+  }
+  /* Container for patient information */
+  .patient-info {
+    margin-bottom: 20px; /* adds a margin at the bottom */
+  }
+  /* Container for medical information */
+  .medical-info {
+    margin-bottom: 20px; /* adds a margin at the bottom */
+  }
+  /* Aligns headings */
+
+  /* Parent container */
+  .parent {
+    display: flex; /* displays the child elements as a flexible box */
+    align-items: center; /* centers the child elements vertically */
+    justify-content: center; /* centers the child elements horizontally */
+    height: 100vh; /* sets the height to 100% of the viewport height */
+  }
+  /* Modify button */
+  .modify-button {
+    background-color: #4caf50; /* Green */
+    border: none; /* removes the border */
+    color: white; /* sets the text color to white */
+    padding: 15px 32px; /* adds padding */
+    text-align: center; /* centers the text */
+    text-decoration: none; /* removes the text decoration */
+    display: inline-block; /* displays the button as an inline-level block */
+    font-size: 16px; /* sets the font size */
+    margin-top: 10px; /* adds a margin at the top */
+  }
+</style>
+
+
+
+<button><a class="nav-link active" aria-current="page" href="{% url 'listedespatterminer' %}">Back</a></button>
+
+<div class="patient-file">
+  
+  <h1 class="text-center">
+   Patient File <img src="https://img.icons8.com/color/48/null/file.png" />
+  </h1>
+  <div>
+    <h4 class="text-info"><b>Personal Information</b></h4>
+    <p>
+      <img src="https://img.icons8.com/color/32/null/employee-card.png" />
+      patient :
+      {{p.name}}
+    </p>
+    <p>
+      <img
+        src="https://img.icons8.com/fluency/32/null/address.png"
+
+      /> adress : {{p.address}}
+    </p>
+    <p>
+      <img src="https://img.icons8.com/fluency/32/null/phone.png" />¨Phone Number : {{p.phone}}
+    </p>
+    <p>
+      <img
+        src="https://img.icons8.com/external-kmg-design-flat-kmg-design/32/null/external-id-card-business-management-kmg-design-flat-kmg-design.png"
+      />
+      ID Card Number:
+      {{p.cin}}
+    </p>
+  </div>
+  
+  <div class="patient-info">
+    <h4 class="text-info"><b>Visit Information</b></h4>
+    <p>
+      <img src="https://img.icons8.com/color/32/null/doctor-male--v1.png" />    doctor: 
+      {{f.doctor}}
+    </p>
+    <p>
+      <img src="https://img.icons8.com/color/32/null/calendar-26.png" />
+      Date of consultation: 
+      {{f.date}}
+    </p>
+
+    <p>
+      <img src="https://img.icons8.com/color/32/null/clr_watch_2.png" />
+      Hour: 
+      {{f.time}}
+    </p>
+  </div>
+
+  <div>
+    <h4 class="text-info"><b>Medical Information</b></h4>
+
+    <p>
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFOUlEQVR4nO2XXUxbZRjHjxqNHzfGxCvvvPLrwmjihTe7WOgH7Tkkk25zbjqZmk2dIcum06ksixun7TkdDEf4iJoBQ8WJc2wsOgY67fniFLpCVyh0ZV0B2WD061Ba6HnMe6CMsTrZehjE+E/+ydu3p8/76/+8531aDPuv68VK8X5NMftKnk1oJWztwzozm9RbOImghCBBC79qSPZNDc08tixwOfvtzxmtvG9TpStsa70CdZ0SNPVOw0+epDJGc9tqeqIGCxfLtQr7TDTz0F0BW1XU9qCGZHOMVj5Mt4zIzf0y3MrfuuKw9YhnAqd5j+EL5oklA9OQzEsELTB6M5s0lXWED/0++q9w873v1OCUgeJHdPvPPa46nMHCbsMpXrKe+Us+0Tu9aKjmBd5z/FICp3kBA7hHNTid2b6asAlSvXPijsGa0+6TYUO5M6o5wK5TDRC38r6yc6PZw/XPuMI+DjjF+1SB05L8s3k2QTq1YJG6Dgm+/GPsjlMkaF5aXSw8mTWgpph5/b263ki6+Mm+FBQ1XQbTIRFePeyAvScCytztQm6t6YloSGaDCgkyH+5uHEimC+/8vh921LkhEp+CsWgSPvruAhRUd0EVG7otwN2N/qS2mNmlRoLbd/3gi6Oi6JYWVDkhMZWC+Wp1X4WCSie8Vt4JnzQOwMHWKwpwrSMGx7oTGQE//tGfRF8++wTNLPHONxeuoaKbq7vkcz1jClQyNeP56h2OQT0ThL2NXiisdcOW6vOQXyrCujKHsi1O9Fw/nrbXeaOoDWYNqNvPPbOmRIygh0Rv4SA+SyUOyeAYkmExGrwWB3NTP7xReR6Oe6YUwPWHnSENaX85a8CiIrg318JF0VNrsHLKgslpgK87U4oXpngrHTx9EXY2+KDJOw0GCx9XrTfn0e1n9p0MgtHKK5H1jspQIaYUo/FidSWcACPFK+cgYRNcmFrSkfajm6u7UkZKUBbyjl0H9I4tHhDJYOGhsL5P1pvZk6rAoYdkbZkYy7XygM8CpiH7bhMOCdUgaAFMpQ5JY7YbswbUkNxO6+mBxNtfdd0AmJbzUhiGxidvmh+4OgE9Q9GMgBvLO8HS7E+g2lkD5pCs/q1qZ/hQSwDtwRsAPm3wQEFVJ/hGpJtAXIEwbCx3wIGfvTAcuv4FjFYB6F8GYEu1M6wl7dqsAU0NDfflUfxgxW+DMk7NAKJk1peJcFwchqnUP9/myWQK6u1BMJW2z6WMalS0BWWC4oOoNqaGtGbmBSPFR/JL2udoFnaTW2n+taiGgeIjOZY/n8fUVC7peJqguCRkKYLikkZKfApTWzMHNptMd5I70URiGlANVX9Nz1d+Sbuz3TeecfFLIRlqXSnFgVDmfcn3j6Nb3IEtlXRm9t3Pj/XEMi1e60rBpko3bKpyQ50rc8p7GjwxvZnZumSAOVbnIwTNjXZfjty0eN+YDFqSVZzpAEfHDvqssUh8GFtK6awMvrZUlK5GEjcAyDLMAabQi3kaCU9Cfokg6c189p1jMSIofgeC7J3tFAjHdtoHO456FNPNPmUO6UIwgs7BCZzmCrG7qVySXUPQXKj4Z69UcdYP7x/phjZvVDEaV571oy4ygVNcCF2LLYdWHWx71GBhP8MpXhYvx6GsJaBYCMQBpzgZvYeuwZZbWpIFf0iGwoaAYjRGc9hKkXYWMJ3gigRsuZiaSxCNVxygf6Un6P9/D2YhnOLHOwcnwX4xprgjOIn+vY1jK0V5NG/7oMYtITDk7TVuCacFerm55mQq6n4AQaIkUXIIDs2pUfxv+Bdt//5NjssAAAAASUVORK5CYII="
+      />
+      Description of the disease
+      {{f.description}}
+    </p>
+    <p>
+      <img src="https://img.icons8.com/color/32/null/pills.png" />
+      Cure
+      {{f.traitement}}
+    </p>
+  </div>
+  {% if request.user.is_authenticated %}
+  {% if request.user.is_superuser %}
+  <button onclick="exportToPDF()" >Export as PDF</button>
+  {% else %}
+
+  {% if request.user.is_superuser %} {% else %}
+  <a href="/modiffiche/{{f.id}}"
+    ><button class="btn btn-primary">Update</button></a
+  >
+  {% endif %}
+  {% endif %}
+  {% endif %}
+</div>
+
+
+
+<script>
+  function exportToPDF() {
+    const patientFile = document.querySelector('.patient-file');
+    const fileName = 'patient-file.pdf';
+    html2pdf().set({
+
+      margin: [0, 0],
+      filename: fileName,
+      jsPDF: {
+        unit: 'in',
+        format: 'a2',
+        orientation: 'portrait'
+      }
+    }).from(patientFile).save();
+  }
+  </script>

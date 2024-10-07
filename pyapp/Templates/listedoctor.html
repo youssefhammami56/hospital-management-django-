@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<head>
+    <!-- Your other head elements, including the linked stylesheets and scripts -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-custom {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table-custom {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .btn-custom {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-custom img {
+            margin-right: 5px;
+        }
+
+        .card-header-custom {
+            background-color: #f8f9fa; /* Light background */
+            color: #5bc0de; /* Light blue color */
+            text-align: center;
+            padding: 15px;
+            border-bottom: 1px solid #e3e6f0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .card-header-custom h3 {
+            margin: 0;
+        }
+
+        .add-doctor-btn img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .add-doctor-btn {
+            background-color: #5bc0de;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .add-doctor-btn:hover {
+            background-color: #31a2c2;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'adminnavbar.html' %}
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        });
+    </script>
+
+    <div class="container mt-5">
+        <div class="card card-custom">
+            <div class="card-header card-header-custom">
+                <h3>Doctors</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-right mb-3">
+                    <a href="{% url 'ajoutdoctor' %}" class="add-doctor-btn">
+                        <img src="https://img.icons8.com/ultraviolet/50/plus-2-math.png" alt="Add Doctor">
+                    </a>
+                </div>
+                <table class="table table-bordered table-custom" id="example">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>CIN</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Speciality</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                            {% if request.user.is_superuser %}
+                            <th>Action</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in userr %}
+                        <tr>
+                            <td>{{ i.username }}</td>
+                            <td>{{ i.email }}</td>
+                            <td>{{ i.cin }}</td>
+                            <td>{{ i.phone }}</td>
+                            <td>{{ i.address }}</td>
+                            <td>{{ i.specialite }}</td>
+                            <td>{{ i.ser }}</td>
+                            <td>
+                                {% if i.statut == 'disponible' %}
+                                Available
+                                {% elif i.statut == 'non disponible' %}
+                                Unavailable
+                                {% else %}
+                                {{ i.statut }}
+                                {% endif %}
+                            </td>
+                            {% if request.user.is_superuser %}
+                            <td>
+                                <a href="modifdoc/{{ i.id }}">
+                                    <button class="btn btn-primary btn-custom">
+                                        <img srcset="https://img.icons8.com/color/25/connection-sync.png">Update
+                                    </button>
+                                </a>
+                                <a href="profiledoctor2/{{ i.id }}">
+                                    <button class="btn btn-success btn-custom">
+                                        <img src="https://img.icons8.com/cotton/25/search-account.png">Profile
+                                    </button>
+                                </a>
+                                <a href="suppdoc/{{ i.id }}" class="btn btn-danger btn-custom" onclick="event.preventDefault();
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: 'Would you confirm this delete?',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!',
+                                    cancelButtonText: 'Cancel'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'suppdoc/{{ i.id }}';
+                                    }
+                                });">
+                                    <img src="https://img.icons8.com/color/30/delete-property.png">Delete
+                                </a>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        {% for msg in messages %}
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{{ msg }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        {% endfor %}
+    </script>
+
+</body>
+
+</html>

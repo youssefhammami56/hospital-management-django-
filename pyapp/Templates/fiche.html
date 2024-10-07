@@ -1,0 +1,152 @@
+{% include 'adminnavbar.html' %}
+<style>
+  /* Container for the patient file */
+  .patient-file {
+    border: 1px solid #ccc;
+    position: relative;
+    top: 50px;
+    padding: 20px;
+    margin: 0 auto;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f7f9fc;
+    background-image: url(https://mydryeyedisease.com/wp-content/uploads/2021/10/fiche-specialiste.gif);
+    background-size: 320px;
+    background-repeat: no-repeat;
+    background-position: right;
+    border-radius: 10px;
+  }
+
+  /* Button styling */
+  .patient-file button a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .patient-file button {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  /* Patient information */
+  .patient-info, .medical-info {
+    margin-bottom: 20px;
+  }
+
+  /* Headings styling */
+  .patient-file h4 {
+    color: #17a2b8;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .patient-file p {
+    margin: 5px 0;
+    font-size: 1.1em;
+  }
+
+  .patient-file img {
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+
+  /* Flexbox parent container */
+  .parent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  /* Modify button */
+  .modify-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-info {
+    color: #17a2b8;
+  }
+</style>
+
+<div class="parent">
+  <div class="patient-file">
+    <button><a class="nav-link active" aria-current="page" href="{% url 'listedespatterminer' %}">Back</a></button>
+    <h1 class="text-center">
+      Patient File <img src="https://img.icons8.com/color/48/null/file.png" />
+    </h1>
+    <div>
+      <h4 class="text-info"><b>Personal Information</b></h4>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/employee-card.png" /> Patient: 
+        {{p.name}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/fluency/32/null/address.png" /> Address: 
+        {{p.address}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/fluency/32/null/phone.png" /> Phone Number: 
+        {{p.phone}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/external-kmg-design-flat-kmg-design/32/null/external-id-card-business-management-kmg-design-flat-kmg-design.png" /> ID Card Number: 
+        {{p.cin}}
+      </p>
+    </div>
+
+    {% for f in f %}
+    <div class="patient-info">
+      <h4 class="text-info"><b>Visit Information</b></h4>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/doctor-male--v1.png" /> Doctor: 
+        {{f.doctor}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/calendar-26.png" /> Visit Date: 
+        {{f.date}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/clr_watch_2.png" /> Visit Hour: 
+        {{f.time}}
+      </p>
+    </div>
+
+    <div class="medical-info">
+      <h4 class="text-info"><b>Medical Information</b></h4>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/clinic.png" /> Description of the Disease: 
+        {{f.description}}
+      </p>
+      <p>
+        <img src="https://img.icons8.com/color/32/null/pills.png" /> Cure: 
+        {{f.traitement}}
+      </p>
+    </div>
+
+    {% if not request.user.is_superuser %}
+    <a href="/modiffiche/{{f.id}}">
+      <button class="modify-button">Update</button>
+    </a>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>

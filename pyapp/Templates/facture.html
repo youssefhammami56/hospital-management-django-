@@ -1,0 +1,213 @@
+{% comment %} {% include 'adminnavbar.html '%}
+<style>
+    .invoice-container {
+      width: 80%;
+      margin: 60px auto;
+      text-align: center;
+      border: 1px solid lightgray;
+      padding: 20px;
+      box-shadow: 0px 0px 10px 0px lightgray;
+    }
+    
+    .header h1 {
+      margin-top: 20px;
+      font-size: 36px;
+      text-shadow: 1px 1px 1px gray;
+    }
+    
+    .patient-info {
+      margin-top: 40px;
+    }
+    
+    .patient-info p {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    
+    .invoice-details table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    .invoice-details th,
+    .invoice-details td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    
+    .invoice-details td {
+      text-align: left;
+    }
+    
+    .invoice-details th {
+      background-color: lightgray;
+    }
+  </style>
+  
+  <div class="invoice-container">
+   
+  
+    <div class="patient-info" style="float:left;">
+      <h3>Patient Information:</h3>
+      <p><strong>Nom:</strong> {{p.name}}</p>
+      <p><strong>Address:</strong> {{p.address}}</p>
+      <p><strong>Phone:</strong> {{p.phone}}</p>
+      
+      <p><strong>cin:</strong> {{p.cin}}</p>
+
+
+      <p><strong>Date de naissance:</strong> {{p.date}}</p>
+      <h3><strong>facture details</strong> </h3>
+    </div>
+  
+    <div class="invoice-details" >
+      
+      <table>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+  
+        <tr>
+          <td>Doctor Consultation</td>
+          <td>${{fac.prixconsultation}}</td>
+        </tr>
+        <tr>
+          <td>Hospitalization</td>
+          <td>{{fac.prixhos}} $</td>
+        </tr>
+        <tr>
+          <td>Lab Test</td>
+          <td>{{fac.prixtest}} $</td>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{fac.montanttotal}} $</td>
+        </tr>
+      </table>
+    </div>
+  </div> {% endcomment %}
+  {% include 'adminnavbar.html '%}
+  <style>
+    /* Add your custom styles here */
+    .invoice-container {
+      width: 80%;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+    
+    .invoice-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .invoice-header h1 {
+      font-size: 36px;
+      color: #333;
+    }
+    
+    .patient-info {
+      margin-bottom: 30px;
+    }
+    
+    .patient-info p {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    
+    .invoice-details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .invoice-details th,
+    .invoice-details td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    
+    .invoice-details th {
+      background-color: #f2f2f2;
+    }
+    
+    .invoice-details td {
+      font-size: 16px;
+    }
+    
+    .total-row td {
+      font-weight: bold;
+    }
+    
+    .btn-export {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .btn-export button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .btn-export button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+  
+  <div class="invoice-container">
+    <div class="invoice-header">
+      <h1>BILL</h1>
+    </div>
+    <div class="patient-info">
+      <h3>Patient Information:</h3>
+      <p><strong>Nom:</strong> {{p.name}}</p>
+      <p><strong>Address:</strong> {{p.address}}</p>
+      <p><strong>Phone:</strong> {{p.phone}}</p>
+      <p><strong>CIN:</strong> {{p.cin}}</p>
+      <p><strong>Date de Naissance:</strong> {{p.date}}</p>
+    </div>
+    <div class="invoice-details">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Doctor Consultation</td>
+            <td>${{fac.prixconsultation}}</td>
+          </tr>
+          <tr>
+            <td>Hospitalization</td>
+            <td>${{fac.prixhos}}</td>
+          </tr>
+          <tr>
+            <td>Lab Test</td>
+            <td>${{fac.prixtest}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td>Total:</td>
+            <td>${{fac.montanttotal}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="btn-export">
+      <button onclick="exportToPDF()">Export as PDF</button>
+    </div>
+  </div>

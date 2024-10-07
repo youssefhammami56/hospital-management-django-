@@ -1,0 +1,194 @@
+{% include 'adminnavbar.html ' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .container .title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            height: 50px;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">File</div>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <form method="post" action="addfich/{{ p.id }}" onsubmit="return validateForm()" id="myForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="patient">Patient</label>
+            <input type="text" id="patient" name="patient" class="form-control" value="{{ p.name }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="cin">ID Card</label>
+            <input type="text" id="cin" name="cin" class="form-control" value="{{ p.cin }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{ p.email }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" class="form-control" value="{{ p.phone }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="date">Date of Visit</label>
+            <input type="date" id="date" name="date" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="time">Hour</label>
+            <input type="time" id="time" name="time" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="doc">Doctor</label>
+            <select id="doc" name="doc" class="form-control">
+                {% for d in doctorr %}
+                    <option value="{{ d.id }}">{{ d.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="desc">Description of the Condition</label>
+            <textarea id="desc" name="desc" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="trait">Cure</label>
+            <textarea id="trait" name="trait" class="form-control" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="nbrhosp">Hospitalization</label>
+            <input type="number" id="nbrhosp" name="nbrhosp" class="form-control" placeholder="Number of days">
+        </div>
+        <div class="form-group">
+            <label for="test">Need Test?</label>
+            <div>
+                <input type="radio" id="test_yes" name="test" value="oui" required>
+                <label for="test_yes">Yes</label>
+                <input type="radio" id="test_no" name="test" value="False" required>
+                <label for="test_no">No</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-submit">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    function validateForm() {
+        var date = document.getElementById("date").value;
+        var time = document.getElementById("time").value;
+        var desc = document.getElementById("desc").value;
+        var trait = document.getElementById("trait").value;
+        var nbrhosp = document.getElementById("nbrhosp").value;
+        var test = document.querySelector('input[name="test"]:checked');
+
+        if (date === "") {
+            showAlert("Please enter the date of the visit!");
+            return false;
+        }
+
+        if (time === "") {
+            showAlert("Please enter the time of the visit!");
+            return false;
+        }
+
+        if (desc === "") {
+            showAlert("Please enter the description of the patient's condition!");
+            return false;
+        }
+
+        if (trait === "") {
+            showAlert("Please enter the planned treatment!");
+            return false;
+        }
+
+        if (nbrhosp === "") {
+            showAlert("Please enter the number of days of hospitalization!");
+            return false;
+        }
+
+        if (nbrhosp < 0) {
+            showAlert("Please enter a positive number for hospitalization days!");
+            return false;
+        }
+
+        if (!test) {
+            showAlert("Please specify if a test is needed or not!");
+            return false;
+        }
+
+        return true;
+    }
+
+    function showAlert(message) {
+        swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: message
+        });
+    }
+</script>
+</html>

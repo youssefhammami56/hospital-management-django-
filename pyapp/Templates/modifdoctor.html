@@ -1,0 +1,175 @@
+{% include 'adminnavbar.html' %}
+
+<head>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<style>
+  .container {
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+    padding: 25px 30px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+  }
+
+  .container .title {
+    font-size: 25px;
+    font-weight: 500;
+    color: #343a40;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-group span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #495057;
+  }
+
+  .form-control {
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0 15px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+  }
+
+  .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  .button {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .button input[type="submit"] {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  .button input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="title">Update Profile for {{ d.username }}</div>
+    <form method="post" action="modifdocaction2/{{ d.id }}" id="myForm" onsubmit="return validateForm()">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <span>Doctor Name</span>
+        <input type="text" id="name" name="name" value="{{ d.username }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>Email</span>
+        <input type="email" id="email" name="email" value="{{ d.email }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>Address</span>
+        <input type="text" id="address" name="address" value="{{ d.address }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>Phone Number</span>
+        <input type="text" id="phone" name="phone" value="{{ d.phone }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>ID Card</span>
+        <input type="text" id="cin" name="cin" value="{{ d.cin }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>Specialty</span>
+        <input type="text" id="specialite" name="specialite" value="{{ d.specialite }}" class="form-control">
+      </div>
+      <div class="form-group">
+        <span>Service</span>
+        <select name="service" id="service" class="form-control">
+          {% for s in s %}
+          <option value="{{ s.id }}">{{ s.nom }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="button">
+        <input type="submit" value="Update" class="btn btn-primary">
+      </div>
+      <input type="hidden" name="password" value="{{ d.password }}">
+      <input type="hidden" name="password2" value="{{ d.password }}">
+    </form>
+  </div>
+</body>
+
+<script>
+  function validateForm() {
+    var email = document.getElementById("email").value;
+    var address = document.getElementById("address").value;
+    var phone = document.getElementById("phone").value;
+    var specialite = document.getElementById("specialite").value;
+    var service = document.getElementById("service").value;
+
+    if (email === "") {
+      alert("Email field cannot be empty");
+      return false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      alert("Email field must contain a valid email address");
+      return false;
+    }
+
+    if (address === "") {
+      alert("Address field cannot be empty");
+      return false;
+    }
+
+    if (phone === "") {
+      alert("Phone field cannot be empty");
+      return false;
+    } else if (!/^\d+$/.test(phone)) {
+      alert("Phone field must be a number");
+      return false;
+    } else if (phone.length != 8) {
+      alert("Phone field must be 8 numbers");
+      return false;
+    }
+
+    if (specialite === "") {
+      alert("Specialty field cannot be empty");
+      return false;
+    }
+
+    if (service === "") {
+      alert("Service field cannot be empty");
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+{% for msg in messages %}
+swal('{{msg}} {{ request.session.username }}')
+{% endfor %}
+</html>

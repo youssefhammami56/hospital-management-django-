@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'adminnavbar.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Management</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <style>
+        .container-custom {
+            max-width: 700px;
+            width: 100%;
+            padding: 25px 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            margin: 50px auto;
+        }
+        .container-custom .title {
+            font-size: 25px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #5bc0de;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-custom:hover {
+            background-color: #31a2c2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container container-custom">
+        <div class="title text-center">Service Management <img src="https://img.icons8.com/color/48/null/engineering.png"/></div>
+        <a href="{% url 'formajoutservice' %}" class="btn btn-custom mb-3">
+            <img src="https://img.icons8.com/ultraviolet/50/plus-2-math.png" alt="Add Service" width="30"> Add Service
+        </a>
+        
+        <table class="table table-bordered" id="example">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Service Number</th>
+                    <th>Service Name</th>
+                    <th>Service Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in s %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.nom }}</td>
+                    <td>{{ i.description }}</td>
+                    <td>
+                        <a href="modifierservice/{{ i.id }}" class="btn btn-primary">
+                            <img src="https://img.icons8.com/color/30/connection-sync.png" alt="Update"> Update
+                        </a>
+                        <a href="#" class="btn btn-danger" onclick="confirmDeletion({{ i.id }})">
+                            <img src="https://img.icons8.com/color/30/delete-property.png" alt="Delete"> Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            });
+        });
+
+        function confirmDeletion(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to delete this service?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `suppservice/${id}`;
+                }
+            });
+        }
+
+        {% for msg in messages %}
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '{{ msg }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        {% endfor %}
+    </script>
+</body>
+</html>

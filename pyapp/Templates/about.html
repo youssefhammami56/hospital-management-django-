@@ -1,0 +1,48 @@
+{% include 'navbar.html'%}
+
+<style>
+    #about-section {
+        background-color: #f2f2f2;
+        padding: 40px;
+        bottom:100px;
+      }
+      
+      #about-section h1 {
+        text-align: center;
+      }
+      
+      #hospital-logo {
+        display: block;
+        margin: 0 auto;
+        width: 200px;
+      }
+      
+      #more-info {
+        padding: 10px;
+      }
+
+</style>
+{% load static %}
+<div id="about-section" >
+    <h1>About US</h1>
+    <img src="https://cdn4.iconfinder.com/data/icons/4-medical-flat-1/614/12_-_Hospital-220.png" alt="Hospital Logo" id="hospital-logo">
+    <p>Our hospital strives to provide the highest level of medical care to our patients. We have a team of experienced and compassionate doctors, nurses and staff who work together to ensure that each patient receives the best treatment possible.</p>
+    <button id="read-more-btn">Read More</button>
+    <div id="more-info" style="display:none;">
+      <p>We are equipped with state-of-the-art technology and facilities, and we offer a wide range of services, including emergency care, surgical procedures and specialized treatments. We are committed to continuing education and research, and we are constantly working to improve the quality of care we provide.</p>
+<p>We understand that a hospital visit can be stressful, which is why we strive to make our patients and their families as comfortable as possible. Our patient-centered approach means we listen to your concerns and work with you to develop a treatment plan tailored to your unique needs.</p>    </div>
+  </div>
+  <script>
+    const btn = document.getElementById("read-more-btn");
+const moreInfo = document.getElementById("more-info");
+
+btn.addEventListener("click", function() {
+  if (moreInfo.style.display === "none") {
+    moreInfo.style.display = "block";
+    btn.innerHTML = "Read Less";
+  } else {
+    moreInfo.style.display = "none";
+    btn.innerHTML = "Read More";
+  }
+});
+    </script>

@@ -1,0 +1,287 @@
+{% comment %}  {% include 'adminnavbar.html' %}
+
+<style>
+
+    .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    color: blue;
+    font-size: 3em;
+    margin-bottom: 50px;
+}
+
+.mydiv {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.mydiv a {
+    color: black;
+    text-decoration: none;
+}
+
+.mydiv p {
+    font-size: 1.5em;
+}
+.mydiv:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+
+/* Add a background color on active mydiv */
+.mydiv.active {
+    background-color: #d9edf7;
+}
+
+/* center the text inside mydiv */
+.mydiv h4, .mydiv p {
+    text-align: center;
+}
+
+/* Add a border to mydiv elements */
+.mydiv {
+    border: 1px solid #ccc;
+}
+    
+    </style>
+<div class="container">
+<h1 class="text-center" style="margin-top:50px"> statistique </h1>
+    <div class="row mt-5  text-center">
+      <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listedoctor' %}">
+        <h4>Nombre doctors</h4></a>
+        <p class="text-danger font-weight-bold mt-3">{{ld}}</a></p>
+        </div> 
+        <div class="col-lg-3 col-sm-6 mydiv">
+          <a href="{% url 'listedoctor' %}">
+          <h4>Nombre doctors disponible</h4></a>
+          <p class="text-danger font-weight-bold mt-3">{{dd}}</a></p>
+          </div> 
+        <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listedesdemandes' %}">
+      <h4> Nombres des patients</h4></a>
+        
+      <p class="text-danger font-weight-bold mt-3">{{ldm}}</p>
+      </div>
+      <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'patientenattent' %}">
+        <h4>Nombre des patient dans la liste d' attente</h4></a>
+        <p class="text-danger font-weight-bold mt-3">{{lp}}</a></p>
+      </div> 
+       <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listrdv' %}">
+        <h4>Nombres rendez-vous</h4></a>
+        <p class="text-danger font-weight-bold mt-3">{{r}}</p>
+       
+    </div>
+    <div class="col-lg-3 col-sm-6 mydiv">
+      <a href="{% url 'listrdv' %}">
+      <h4>Nombres des rendez vous mazalou </h4></a>
+      <p class="text-danger font-weight-bold mt-3">{{lr}}</p>
+     
+  </div>
+      <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listrdv' %}">
+        <h4>Nombre des rendez vous effectuer </h4></a>
+        <p class="text-danger font-weight-bold mt-3">{{lrdd}}</a></p>
+      </div>
+      <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listeservice' %}">
+        <h4>Nombre de Service </h4></a>
+        <p class="text-danger font-weight-bold mt-3">{{s}}</a></p>
+      </div>
+    
+   
+     
+    
+  </div> 
+  {% include 'adminnavbar.html' %}
+
+<style>
+
+    .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    color: blue;
+    font-size: 3em;
+    margin-bottom: 50px;
+}
+
+.mydiv {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.mydiv a {
+    color: black;
+    text-decoration: none;
+}
+
+.mydiv p {
+    font-size: 1.5em;
+}
+.mydiv:hover {
+    background-color: #e5e5e5;
+    cursor: pointer;
+}
+
+/* Add a background color on active mydiv */
+.mydiv.active {
+    background-color: #d9edf7;
+}
+
+/* center the text inside mydiv */
+.mydiv h4, .mydiv p {
+    text-align: center;
+}
+
+/* Add a border to mydiv elements */
+.mydiv {
+    border: 1px solid #ccc;
+}
+    
+    </style>
+<div class="container">
+
+    <div class="row mt-5  text-center">
+        <div class="col-lg-3 col-sm-6 mydiv">
+            <a href="{% url 'listeservice' %}">
+                <h4> Service </h4></a>
+                <br>
+                <img src="https://cdn-icons-png.flaticon.com/64/3518/3518115.png"/>
+            <p class="text-danger font-weight-bold mt-3">{{s}}</a></p>
+          </div>
+        <div class="col-lg-3 col-sm-6 mydiv">
+          <a href="{% url 'listedoctor' %}">
+          <h4>Available Doctors</h4></a>
+          <br>
+          <img src="https://icons.iconarchive.com/icons/medicalwp/medical/64/Doctor-red-icon.png"/>
+          <p class="text-danger font-weight-bold mt-3">{{dd}}</a></p>
+          </div> 
+       
+       <div class="col-lg-3 col-sm-6 mydiv">
+        <a href="{% url 'listrdv' %}">
+        <h4>Appointments</h4></a>
+        <br>
+        <img src="https://cdn-icons-png.flaticon.com/64/470/470326.png"/>
+        <p class="text-danger font-weight-bold mt-3">{{r}}</p>
+       
+    </div>
+    <div class="col-lg-3 col-sm-6 mydiv">
+      <a href="{% url 'listedespatientenattente' %}">
+      <h4>waiting Appointmens</h4></a>
+      <img src="https://img.icons8.com/pastel-glyph/64/null/appointment-time.png"/>
+      <p class="text-danger font-weight-bold mt-3">{{lr}}</p>
+     
+  </div>
+    
+      
+    
+   
+     
+    
+  </div> {% endcomment %}
+  {% load static %}
+{% include 'adminnavbar.html' %}
+
+<style>
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: black;
+        font-size: 3em;
+        margin-bottom: 50px;
+        text-align: center;
+    }
+
+    .mydiv {
+        background-color: #d9edf7;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        border: 1px solid #ccc;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+    }
+
+    .mydiv a {
+        color: black;
+        text-decoration: none;
+        display: block;
+    }
+
+    .mydiv p {
+        font-size: 1.5em;
+        margin-top: 15px;
+    }
+
+    .mydiv:hover {
+        background-color: #cbeaf8;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col-lg-3,
+    .col-sm-6 {
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        margin-bottom: 30px;
+    }
+
+    .mydiv img {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <h1 class="text-center" style="margin-top:50px">dashboard</h1>
+    <div class="row mt-5 text-center">
+        <div class="col-lg-3 col-sm-6 mydiv">
+            <a href="{% url 'listeservice' %}">
+                <h4>Service</h4>
+                <img src="https://cdn-icons-png.flaticon.com/64/3518/3518115.png"/>
+            </a>
+            <p class="text-danger font-weight-bold mt-3">{{s}}</p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mydiv">
+            <a href="{% url 'listedoctor' %}">
+                <h4>Available Doctors</h4>
+                <img src="https://icons.iconarchive.com/icons/medicalwp/medical/64/Doctor-red-icon.png"/>
+            </a>
+            <p class="text-danger font-weight-bold mt-3">{{dd}}</p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mydiv">
+            <a href="{% url 'listrdv' %}">
+                <h4>Appointments</h4>
+<img src="https://cdn-icons-png.flaticon.com/64/470/470326.png"/>            </a>
+            <p class="text-danger font-weight-bold mt-3">{{r}}</p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mydiv">
+            <a href="{% url 'listedespatientenattente' %}">
+                <h4>Waiting Appointments</h4>
+                <img src="https://img.icons8.com/pastel-glyph/64/null/appointment-time.png"/>
+            </a>
+            <p class="text-danger font-weight-bold mt-3">{{lr}}</p>
+        </div>
+    </div>
+</div>

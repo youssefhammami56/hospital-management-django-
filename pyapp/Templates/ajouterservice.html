@@ -1,0 +1,322 @@
+{% comment %} 
+{% include 'adminnavbar.html' %}
+<style>
+  form {
+    width: 30%;
+    margin: 0 auto;
+    position: relative;
+    top: 120px;
+  }
+  
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+  }
+  #description,
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="email"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  input[type="submit"] {
+    width: 100%;
+    
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: steelblue;
+  }
+</style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<form method="post" action="ajoutservice"  id="myForm" onsubmit="return validateForm()">
+  {% csrf_token %}
+  <label for="name">Nom du Service:</label>
+  <input type="text" id="name" name="name"><br>
+
+  
+  <label for="email">description :</label>
+  <textarea id="description" name="description" name="name"></textarea>
+  
+  <input type="submit" value="Ajouter">
+</form>
+
+<script>
+  function validateForm() {
+    var name = document.forms["myForm"]["name"].value;
+    var email = document.forms["myForm"]["email"].value;
+    var telephone = document.forms["myForm"]["phone"].value;
+    var cin = document.forms["myForm"]["cin"].value;
+    var adresse = document.forms["myForm"]["address"].value;
+    var pass1= document.forms["myForm"]["password"].value;
+    var pass2= document.forms["myForm"]["password2"].value;
+    
+    
+    if (name == "" || email == "" || telephone == "" || cin == "" || adresse == "") {
+        alert("All fields must be filled out");
+        return false;
+    }
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(email)) {
+      alert("Invalid email address");
+      return false;
+    }
+    var re = /^\d{8}$/;
+    if (!re.test(cin)) {
+      alert("Invalid CIN number, it must be 8 digits and no letters");
+      return false;
+    }
+    var re = /^\d{8}$/;
+    if (!re.test(telephone)) {
+      alert("Invalid phone number, it must be 8 digits and no letters");
+      return false;
+    }
+  }
+</script>
+
+<script>
+  {% for msg in messages %}
+  swal('{{msg}} {{ request.session.username }}')
+  {% endfor %}
+</script>
+{% endcomment %}
+
+{% include 'adminnavbar.html' %}
+
+<style>
+  .credit-card{
+    background-color: #f4f4f4;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .card-holder {
+    margin: 2em 0;
+  }
+  .img-box {
+    padding-top: 20px;    
+    display: flex;
+    justify-content: center;
+  }
+  .card-box {
+    font-weight: 800;
+    padding: 1em 1em;
+    border-radius: 0.25em;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+  .bg-news {
+    background: -webkit-linear-gradient(70deg, #1ca1df 40%, #ffffff 40%);
+    background: -o-linear-gradient(70deg, #1ca1df 40%, #ffffff 40%);
+    background: -moz-linear-gradient(70deg, #1ca1df 40%, #ffffff 40%);
+    background: linear-gradient(70deg, #1ca1df 40%, #ffffff 40%);
+  }
+  .credit-card form{
+    background-color: #ffffff;
+    padding: 0;
+    max-width: 600px;
+    margin: auto;
+  }
+  .credit-card .title{
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1em;
+    color: #2C3E50;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 0.8em;
+    font-weight: 600;
+    padding-bottom: 8px;
+  }
+  .credit-card .card-details{
+    padding: 25px 25px 15px;
+  }
+  .inner-addon {
+    position: relative;
+  }
+  .inner-addon .fas, .inner-addon .far {
+    position: absolute;
+    padding: 10px;
+    pointer-events: none;
+    color: #bcbdbd !important;
+  }
+  .right-addon .fas, .right-addon .far { right: 0px; top: 40px;}
+  .right-addon input { padding-right: 30px; }
+  .credit-card .card-details label{
+    font-family: 'Abhaya Libre', serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: #79818a;
+    text-transform: uppercase;
+  }
+  .credit-card .card-details input[type="text"] {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 10px 10px 5px;
+    -webkit-appearance: none;
+    display: block;
+    background: #fafafa;
+    color: #636363;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #757575;	
+  }
+  card-details input[type="text"]:focus { outline: none; }
+  .credit-card .card-details button{
+    margin-top: 0.6em;
+    padding:12px 0;
+    font-weight: 600;
+  }
+  .credit-card .date-separator{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  @media (max-width: 768px) {
+    .credit-card{
+      height: 250vh;
+      width: 100%;
+    }
+    .credit-card .title {
+      font-size: 1.2em; 
+    }
+    .credit-card .row .col-lg-6 {
+      margin-bottom: 40px; 
+    }
+    .credit-card .card-details {
+      padding: 40px 40px 30px; 
+    }
+    .credit-card .card-details button {
+      margin-top: 2em; 
+    } 
+  }
+</style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script src="sweetalert2.min.js"></script>
+<link rel="stylesheet" href="sweetalert2.min.css">
+
+<section class="credit-card">
+  <div class="container">
+    <div class="card-holder">
+      <div class="card-box bg-news">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="img-box">
+              <img src="https://cdn-icons-png.flaticon.com/512/3518/3518115.png"/>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <form method="post" action="ajoutservice" id="myForm" onsubmit="return validateForm()">
+              {% csrf_token %}
+              <div class="card-details">
+                <div class="row">
+                  <div class="form-group col-sm-7">
+                    <div class="inner-addon right-addon">
+                      <label for="card-holder">Nom du Service:</label>
+                      <i class="far fa-user"></i>
+                      <input
+                        id="card-holder"
+                        type="text"
+                        class="form-control"
+                        placeholder="Nom du Service"
+                        aria-label="Card Holder"
+                        aria-describedby="basic-addon1"
+                        name="name"
+                      />
+                    </div>
+                    <br> 
+                    <div class="inner-addon right-addon">
+                      <label for="card-holder">Description :</label>
+                      <i class="far fa-user"></i>
+                      <input
+                        id="card-holder"
+                        type="text"
+                        class="form-control"
+                        placeholder="Description"
+                        aria-label="Card Holder"
+                        aria-describedby="basic-addon1"
+                        name="description"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-12">
+                    <button type="submit" class="btn btn-primary">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--/col-lg-6 -->
+        </div>
+        <!--/row -->
+      </div>
+      <!--/card-box -->
+    </div>
+    <!--/card-holder -->
+  </div>
+  <!--/container -->
+</section>
+
+<script>
+  function validateForm() {
+    var x = document.forms["myForm"]["name"].value;
+    var y = document.forms["myForm"]["description"].value;
+    if (x == "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'empty service name!',
+      })
+      return false;
+    }
+    if (y == "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: ' empty Description!',
+      })
+      return false;
+    }
+  }
+</script>
+
+<script>
+  {% for msg in messages %}
+  swal('{{msg}} {{ request.session.username }}')
+  {% endfor %}
+</script>
+
+
